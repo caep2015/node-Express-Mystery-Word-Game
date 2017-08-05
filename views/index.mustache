@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mystery Word Game</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class ="">
+    <header class="navbar navbar-default">
+      <h4 class="navbar-text">Welcome to Mystery Word</h4>
+      {{#numGuess}}<p class="navbar-text navbar-right">Guesses remaining:{{.}}</p>{{numGuess}}</h5>
+      {{^numGuess}}<p="navbar-text navbar-right">No guesses left! </p>{{numGuess}}</h5>
+    </header>
+    <div class="container">
+      <h1>Let's play!</h1>
+      <section class="container letters">
+        {{#arrayBlanks}}<h1>{{.}} </h1>{{/arrayBlanks}}
+      </section>
+
+      <section class="container guess-from">
+        <form class="form-group form-inline" action="/" method="post">
+          <input type="text" name "text" value="" placehoder="Your guess here" class="form-control">
+          <input type="submit" name="submit" value="Guess!" class="btn btn-info">
+        </form>
+      </section>
+
+      <section class= "already-guessed">
+        <h4>You've guessed:</h4>
+        {{#attemptedLetters}}
+        <span>{{.}}, </span>
+        {{/attemptedLetters}}
+      </section>
+
+    </div>
+
+
+  </body>
+</html>
