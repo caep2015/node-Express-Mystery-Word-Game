@@ -9,9 +9,10 @@
   <body class ="">
     <header class="navbar navbar-default">
       <h4 class="navbar-text">Welcome to Mystery Word</h4>
-      {{#numGuess}}<p class="navbar-text navbar-right">Guesses remaining:{{.}}</p>{{numGuess}}</h5>
-      {{^numGuess}}<p="navbar-text navbar-right">No guesses left! </p>{{numGuess}}</h5>
+      <h5 class="navbar-text navbar-right">Guesses remaining: {{numGuesses}}</h5>
+      {{^numGuesses}}<h5 class="navbar-text navbar-right">No guesses left!</h5>{{/numGuesses}}
     </header>
+
     <div class="container">
       <h1>Let's play!</h1>
       <section class="container letters">

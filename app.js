@@ -22,21 +22,25 @@ let word = '';
 // get random word
 let chooseWord = function(){
   let chosenWord = '';
-  let chosenIndex = Math.floor(Math.random() * WORDS.length);
-  chosenWord = WORDS[chosenIndex];
-//  console.log('chosenWord: ' chosenWord);
+  let randomIndex = Math.floor(Math.random() * WORDS.length);
+  chosenWord = WORDS[randomIndex];
   //check word length
   if (chosenWord.length <= 8 && chosenWord.length >= 4) {
     word = chosenWord;
-    console.log('word in function: ', word);
     return word;
   } else {
     return chooseWord();
   }
 };
-//computer word
+//game variables
 let randomWord = chooseWord();
-//console.log('randomWord: ', randomWord);
+let player = '';
+//arrays of blanks
+let arrayBlanks = [];
+let wordArray = Array.from(randomWord);
+let attemptedLetters = [];
+let numGuess = 8;
+console.log ('guesses: ', numGuess);
 
 //add express session
 app.use(session({
@@ -51,46 +55,71 @@ app.use((req, res, next) => {
   //console.log('storedWord: ', storedWord);
   next();
 });
-//arrays of blanks
-let arrayBlanks = [];
-let wordArray = Array.from(randomWord);
-let attemptedLetters = [];
-console.log('wordArray ', wordArray);
+//require name
+app.use((req, res, next) => {
+  let pathname = parseurl(req).pathname;
+  if (!req.session.user && pathname != '/index') {
+    res.redirect('/index');
+  } else {
+    next();
+  }
+});
+
 //set endpoints
-app.get('/', (req, res)=>{
-  for(let i = 0; i < randomWord.length; i++) {
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.get('/index', (req, res)=> {
+  res.render('index', {});
+});
+
+app.get('/', (req, res)=> {
+  for (let i = 0; i < randomWord.length; i++) {
     arrayBlanks[i] = '_';
   };
 
-  context = {
+  let context = {
+    numGuess: numGuess,
+    player: player,
     arrayBlanks: arrayBlanks
   };
 
-//  res.render('index', context);
-//});
+res.render('game', context);
+});
 
-app.post('/', (req, res) => {
+//guessing form
+
+app.post('/game', (req, res) => {
   let counter = 0;
-  let numGuess = 8;
-  let ltrGuess = req.body.text;
+  let ltrGuess = req.body.guess;
+  let repeatedLetters = [];
   ltrGuess = ltrGuess.toLowerCase();
   attemptedLetters.push(ltrGuess.toUpperCase());
+//check letters
+  for (let i = 0; i < attemptedLetters.length; i++) {
+    if (ltrGuess === attemptedLetters[i]) {
+      repeatedLetters.push(letterGuess.toUpperCase());
+      console.log('repeats: ', repeatedLetters);
+    }
+  };
 
   for (let i = 0; i < wordArray.length; i++) {
     counter ++;
-    numGuess --;
     if (letterGuess === wordArray[i]) {
       arrayBlanks[counter - 1] = ltrGuess;
     };
   };
 
-  context = {
+
+  let context = {
+    player: player,
     arrayBlanks: arrayBlanks,
     attemptedLetters: attemptedLetters,
-    numGuess: numGuess
+    repeatedLetters: repeatedLetters
   };
 
-  res.render('index', context);
+  res.render('game', context);
 });
 
 app.listen(3000, function(){
