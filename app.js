@@ -46,7 +46,7 @@ console.log ('guesses: ', numGuess);
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
 }));
 //store word
 app.use((req, res, next) => {
@@ -55,6 +55,14 @@ app.use((req, res, next) => {
   //console.log('storedWord: ', storedWord);
   next();
 });
+
+//store guesses
+app.use((req, res, next) => {
+  let guesses = req.session.store;
+  guesses = numGuess;
+  next();
+});
+
 //require name
 app.use((req, res, next) => {
   let pathname = parseurl(req).pathname;
@@ -74,7 +82,7 @@ app.get('/index', (req, res)=> {
   res.render('index', {});
 });
 
-app.get('/', (req, res)=> {
+app.get('/game', (req, res)=> {
   for (let i = 0; i < randomWord.length; i++) {
     arrayBlanks[i] = '_';
   };
@@ -88,6 +96,19 @@ app.get('/', (req, res)=> {
 res.render('game', context);
 });
 
+//begin form - capture player
+app.post('/index', (req, res) => {
+  player = req.body.name;
+  if (player) {
+    req.session.user = player;
+  };
+
+  if(req.session.user){
+    res.redirect('/game');
+  } else {
+    res.redirect('/index');
+  }
+});
 //guessing form
 
 app.post('/game', (req, res) => {
@@ -96,12 +117,13 @@ app.post('/game', (req, res) => {
   let repeatedLetters = [];
   ltrGuess = ltrGuess.toLowerCase();
   attemptedLetters.push(ltrGuess.toUpperCase());
+
 //check letters
   for (let i = 0; i < attemptedLetters.length; i++) {
     if (ltrGuess === attemptedLetters[i]) {
       repeatedLetters.push(letterGuess.toUpperCase());
       console.log('repeats: ', repeatedLetters);
-    }
+    };
   };
 
   for (let i = 0; i < wordArray.length; i++) {
