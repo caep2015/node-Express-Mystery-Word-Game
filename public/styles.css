@@ -31,3 +31,8 @@ input[type="submit"] {
 input[value="Guess!"] {
   width: auto;
 }
+
+.already-guessed {
+  text-align: center;
+  margin-left: -77px;
+}
