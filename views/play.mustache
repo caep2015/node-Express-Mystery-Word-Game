@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mystery Word</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="">
+  <header class="navbar navbar-default">
+    <h4 class="navbar-text">Welcome to Mystery Word</h4>
+    {{#numGuess}}
+      <h5 class="navbar-text navbar-right">Guesses remaining: {{.}}</h5>{{/numGuess}}
+    {{^numGuess}}
+    <h5 class="navbar-text navbar-right">No guesses left!</h5>{{/numGuess}}
+  </header>
+
+  <div class="container">
+    <h1>Welcome, {{player}}!</h1>
+    <section class="container letters">
+      {{#arrayBlanks}}
+        <h1>{{.}} </h1>{{/arrayBlanks}}
+    </section>
+
+    {{#repeatedLetter}}
+      <section class="container repeatedLetter">
+        <h5 class="alert alert-info">You already tried this letter: {{.}}. Keep going!</h5>
+      </section>
+    {{/repeatedLetter}}
+
+    {{#errorMsg}}
+      <section class="container repeatedLetter">
+        <h5 class="alert alert-danger">Please enter a letter.</h5>
+      </section>
+    {{/errorMsg}}
+
+    {{#win}}
+      <section class="container win-form">
+        <h5 class="alert alert-success">You guessed the word! Play again?</h5>
+        <form class="form-group form-inline win-form" action="/reset" method="get">
+          <input type="hidden" name="play" value="play">
+          <input type="submit" name="playAgain" value="Yes!" class="btn btn-success">
+        </form>
+      </section>
+    {{/win}}
+
+    {{#end}}
+      <section class="container replay-form">
+        <h5 class="alert alert-warning">You are out of guesses. Play again?</h5>
+        <form class="form-group form-inline win-form" action="/reset" method="get">
+          <input type="hidden" name="play" value="play">
+          <input type="submit" name="playAgain" value="Yes!" class="btn btn-warning">
+        </form>
+      </section>
+    {{/end}}
+
+    {{^end}}
+    <section class="container guess-form">
+      <form class="form-group form-inline" action="/play" method="post">
+        <input type="text" name="guess" value="" placeholder="Your guess here" class="form-control">
+        <input type="submit" name="submit" value="Guess!" class="btn btn-info">
+      </form>
+    </section>
+    {{/end}}
+
+    <section class="already-guessed">
+      <h4>You've guessed: <span class="guessed">{{#attemptedLetters}}{{.}}{{/attemptedLetters}}</span></h4>
+    </section>
+
+
+  </div>
+  </div>
+</body>
+
+</html>

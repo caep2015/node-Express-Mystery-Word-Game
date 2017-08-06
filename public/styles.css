@@ -19,3 +19,15 @@ header {
 .guess-form {
   text-align: center;
 }
+
+.repeat, .win-form, .replay-form {
+  text-align: center;
+}
+
+input[type="submit"] {
+  width: 15%;
+}
+
+input[value="Guess!"] {
+  width: auto;
+}
