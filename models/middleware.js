@@ -4,7 +4,7 @@ module.exports = {
   game: {
     WORDS: fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n"),
     playerName: '',
-    attemptedLetters: [],
+    lettersGuessed: [],
     repeatedLetter: [],
     numGuess: 8,
     arrayBlanks: [],
@@ -40,9 +40,9 @@ module.exports = {
       let duplicate = false;
       let correct = false;
 
-      if (this.attemptedLetters) {
-        for (let i = 0; i < this.attemptedLetters.length; i++) {
-          if (letter === this.attemptedLetters[i]) {
+      if (this.lettersGuessed) {
+        for (let i = 0; i < this.lettersGuessed.length; i++) {
+          if (letter === this.lettersGuessed[i]) {
             this.repeatedLetter.push(letter);
             duplicate = true;
             return true;
@@ -51,7 +51,7 @@ module.exports = {
         this.repeatedLetter = [];
       }
 
-      this.attemptedLetters.push(letter);
+      this.lettersGuessed.push(letter);
 
       for (let i = 0; i < this.wordArray.length; i++) {
         counter++;
@@ -69,7 +69,7 @@ module.exports = {
 
     reset: function() {
       this.arrayBlanks = [];
-      this.attemptedLetters = [];
+      this.lettersGuessed = [];
       this.repeatedLetter = [];
       this.numGuess = 8;
       this.wordArray = [];

@@ -21,7 +21,7 @@ module.exports = {
     };
 
     let context = {
-      attemptedLetters: game.attemptedletters,
+      lettersGuessed: game.lettersGuessed,
       arrayBlanks: game.arrayBlanks,
       wordArray: game.wordArray,
       numGuess: game.numGuess,
@@ -61,7 +61,7 @@ module.exports = {
     let context = {
       errorMsg: game.errorMsg,
       win: game.win,
-      attemptedletters: game.attemptedletters,
+      lettersGuessed: game.lettersGuessed,
       repeatedLetter: game.repeatedLetter,
       arrayBlanks: game.arrayBlanks,
       wordArray: game.wordArray,
